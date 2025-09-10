@@ -1,0 +1,152 @@
+.user-edit-container {
+  max-width: 600px;
+  margin: 30px auto;
+  padding: 30px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e1e5e9;
+}
+
+.user-edit-container h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+  font-weight: 600;
+  font-size: 24px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Input styling */
+input[type="text"], 
+input[type="email"] {
+  padding: 12px;
+  border: 2px solid #e1e5e9;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+input[type="text"]:focus, 
+input[type="email"]:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+input[type="text"]:invalid, 
+input[type="email"]:invalid {
+  border-color: #dc3545;
+}
+
+/* Validation error messages */
+form > div:not(:last-of-type):not([class*="permission"]) {
+  color: #dc3545;
+  font-size: 12px;
+  margin-top: -15px;
+  margin-bottom: 5px;
+  padding: 5px 0;
+}
+
+/* Permissions section */
+form > div:nth-last-child(2) {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+  margin: 10px 0;
+}
+
+form label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+form label:hover {
+  background-color: #e9ecef;
+}
+
+input[type="checkbox"] {
+  margin-right: 10px;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+/* Permission error message */
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 10px 15px;
+  border-radius: 6px;
+  border: 1px solid #f5c6cb;
+  margin: 10px 0;
+  font-size: 14px;
+}
+
+/* Submit button */
+button[type="submit"] {
+  padding: 14px 24px;
+  background: linear-gradient(135deg, #ffc107, #e0a800);
+  color: #212529;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+button[type="submit"]:hover:not(:disabled) {
+  background: linear-gradient(135deg, #e0a800, #d39e00);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(255, 193, 7, 0.3);
+}
+
+button[type="submit"]:disabled {
+  background: #6c757d;
+  color: white;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+button[type="submit"]:active {
+  transform: translateY(0);
+}
+
+/* Error message at bottom */
+form + div {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 12px 16px;
+  border-radius: 6px;
+  border: 1px solid #f5c6cb;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .user-edit-container {
+    margin: 20px;
+    padding: 20px;
+  }
+  
+  .user-edit-container h2 {
+    font-size: 20px;
+  }
+}

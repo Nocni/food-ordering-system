@@ -20,7 +20,6 @@
         {{ permission }}
       </label>
     </div>
-    <div *ngIf="user.permissions.length === 0 && userForm.submitted" class="error-message">At least one permission is required!</div>
 
     <button type="submit" [disabled]="userForm.invalid">Add User</button>
   </form>

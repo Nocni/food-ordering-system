@@ -61,8 +61,8 @@
           </td>
           <td>{{order.createdByName}}</td>
           <td>
-            <div *ngFor="let item of order.items" class="item">
-              {{item.name}} - ${{item.price}}
+            <div *ngFor="let groupedItem of getGroupedItems(order)" class="item">
+              <span *ngIf="groupedItem.quantity > 1" class="quantity">{{groupedItem.quantity}} × </span>{{groupedItem.name}} - ${{groupedItem.price}}
             </div>
           </td>
           <td>{{order.createdAt | date:'short'}}</td>

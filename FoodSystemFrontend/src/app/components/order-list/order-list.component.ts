@@ -142,4 +142,23 @@ export class OrderListComponent implements OnInit, OnDestroy {
   hasPermission(permission: string): boolean {
     return this.userService.hasPermission(permission);
   }
+
+  getGroupedItems(order: Order): {name: string, price: number, quantity: number}[] {
+    const itemMap = new Map<string, {name: string, price: number, quantity: number}>();
+    
+    order.items.forEach(item => {
+      const key = `${item.name}-${item.price}`;
+      if (itemMap.has(key)) {
+        itemMap.get(key)!.quantity++;
+      } else {
+        itemMap.set(key, {
+          name: item.name,
+          price: item.price,
+          quantity: 1
+        });
+      }
+    });
+    
+    return Array.from(itemMap.values());
+  }
 }
