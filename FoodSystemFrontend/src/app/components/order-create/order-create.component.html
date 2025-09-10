@@ -1,0 +1,82 @@
+<div class="container">
+  <h2>Create New Order</h2>
+
+  <form (ngSubmit)="onSubmit()" class="order-form">
+    <!-- Category Filter -->
+    <div class="form-group">
+      <label for="category">Filter by Category:</label>
+      <select id="category" [(ngModel)]="selectedCategory" name="category" class="form-control">
+        <option value="">All Categories</option>
+        <option *ngFor="let category of categories" [value]="category">{{category}}</option>
+      </select>
+    </div>
+
+    <!-- Dishes Selection -->
+    <div class="dishes-section">
+      <h3>Select Dishes</h3>
+      <div class="dishes-grid">
+        <div *ngFor="let dish of getFilteredDishes()" class="dish-card">
+          <div class="dish-info">
+            <h4>{{dish.name}}</h4>
+            <p class="dish-description">{{dish.description}}</p>
+            <p class="dish-price">${{dish.price}}</p>
+            <p class="dish-category">Category: {{dish.category}}</p>
+          </div>
+          <div class="quantity-selector">
+            <label for="quantity-{{dish.id}}">Quantity:</label>
+            <input 
+              type="number" 
+              id="quantity-{{dish.id}}"
+              min="0" 
+              max="10"
+              [(ngModel)]="dishQuantities[dish.id]"
+              (ngModelChange)="onDishQuantityChange(dish.id, $event)"
+              name="quantity-{{dish.id}}"
+              class="quantity-input">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Selected Dishes Summary -->
+    <div *ngIf="selectedDishes.length > 0" class="summary-section">
+      <h3>Order Summary</h3>
+      <div class="selected-dishes">
+        <div *ngFor="let item of getSelectedDishesWithQuantities()" class="selected-dish">
+          <span>{{item.dish.name}} x {{item.quantity}}</span>
+          <span class="item-price">${{item.dish.price * item.quantity}}</span>
+        </div>
+      </div>
+      <div class="total-price">
+        <strong>Total: ${{getTotalPrice()}}</strong>
+      </div>
+    </div>
+
+    <!-- Scheduling Options -->
+    <div class="form-group">
+      <label class="checkbox-label">
+        <input type="checkbox" [(ngModel)]="isScheduled" name="isScheduled">
+        Schedule for later
+      </label>
+    </div>
+
+    <div *ngIf="isScheduled" class="form-group">
+      <label for="scheduledDateTime">Scheduled Date & Time:</label>
+      <input 
+        type="datetime-local" 
+        id="scheduledDateTime" 
+        [(ngModel)]="scheduledDateTime" 
+        name="scheduledDateTime" 
+        class="form-control"
+        required>
+    </div>
+
+    <!-- Form Actions -->
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary" [disabled]="selectedDishes.length === 0">
+        {{isScheduled ? 'Schedule Order' : 'Place Order'}}
+      </button>
+      <button type="button" (click)="onCancel()" class="btn btn-secondary">Cancel</button>
+    </div>
+  </form>
+</div>

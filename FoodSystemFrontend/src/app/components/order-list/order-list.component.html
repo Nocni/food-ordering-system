@@ -1,0 +1,93 @@
+<div class="container">
+  <h2>Order Management</h2>
+  
+  <!-- Search Form -->
+  <form (ngSubmit)="onSearch()" class="search-form">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="status">Status:</label>
+        <select id="status" [(ngModel)]="searchCriteria.status" name="status" multiple class="form-control">
+          <option *ngFor="let status of orderStatuses" [value]="status">{{status}}</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="dateFrom">Date From:</label>
+        <input type="date" id="dateFrom" [(ngModel)]="searchCriteria.dateFrom" name="dateFrom" class="form-control">
+      </div>
+      
+      <div class="form-group">
+        <label for="dateTo">Date To:</label>
+        <input type="date" id="dateTo" [(ngModel)]="searchCriteria.dateTo" name="dateTo" class="form-control">
+      </div>
+      
+      <div class="form-group" *ngIf="isAdmin">
+        <label for="userId">User:</label>
+        <select id="userId" [(ngModel)]="searchCriteria.userId" name="userId" class="form-control">
+          <option value="">All Users</option>
+          <option *ngFor="let user of users" [value]="user.id">{{user.firstName}} {{user.lastName}}</option>
+        </select>
+      </div>
+    </div>
+    
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">Search</button>
+      <button type="button" (click)="clearFilters()" class="btn btn-secondary">Clear Filters</button>
+    </div>
+  </form>
+
+  <!-- Orders Table -->
+  <div class="table-container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Status</th>
+          <th>Created By</th>
+          <th>Items</th>
+          <th>Created At</th>
+          <th>Scheduled For</th>
+          <th>Last Updated</th>
+          <th *ngIf="hasPermission('can_cancel_order') || hasPermission('can_track_order')">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of orders">
+          <td>{{order.id}}</td>
+          <td>
+            <span class="status-badge" [style.color]="getStatusColor(order.status)">
+              {{order.status}}
+            </span>
+          </td>
+          <td>{{order.createdByName}}</td>
+          <td>
+            <div *ngFor="let item of order.items" class="item">
+              {{item.name}} - ${{item.price}}
+            </div>
+          </td>
+          <td>{{order.createdAt | date:'short'}}</td>
+          <td>{{order.scheduledFor ? (order.scheduledFor | date:'short') : 'Immediate'}}</td>
+          <td>{{order.statusUpdatedAt | date:'short'}}</td>
+          <td *ngIf="hasPermission('can_cancel_order') || hasPermission('can_track_order')">
+            <button 
+              *ngIf="hasPermission('can_cancel_order') && order.status === 'ORDERED'" 
+              (click)="onCancelOrder(order)" 
+              class="btn btn-danger btn-sm">
+              Cancel
+            </button>
+            <button 
+              *ngIf="hasPermission('can_track_order')" 
+              (click)="onTrackOrder(order)" 
+              class="btn btn-info btn-sm">
+              Track
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <div *ngIf="orders.length === 0" class="no-data">
+      No orders found.
+    </div>
+  </div>
+</div>

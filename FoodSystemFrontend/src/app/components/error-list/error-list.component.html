@@ -1,0 +1,67 @@
+<div class="container">
+  <h2>Error Messages History</h2>
+  
+  <div class="table-container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Order ID</th>
+          <th>Operation</th>
+          <th>Error Message</th>
+          <th>Timestamp</th>
+          <th *ngIf="isAdmin">User</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let error of errors">
+          <td>{{error.id}}</td>
+          <td>{{error.orderId || 'N/A'}}</td>
+          <td>
+            <span class="operation-badge">{{error.operation}}</span>
+          </td>
+          <td class="error-message">{{error.errorMessage}}</td>
+          <td>{{formatDate(error.timestamp)}}</td>
+          <td *ngIf="isAdmin">{{error.userName}}</td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <div *ngIf="errors.length === 0" class="no-data">
+      No error messages found.
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div *ngIf="totalPages > 1" class="pagination">
+    <button 
+      class="btn btn-secondary" 
+      [disabled]="currentPage === 0" 
+      (click)="onPageChange(currentPage - 1)">
+      Previous
+    </button>
+    
+    <span class="page-info">
+      Page {{currentPage + 1}} of {{totalPages}} ({{totalElements}} total errors)
+    </span>
+    
+    <button 
+      class="btn btn-secondary" 
+      [disabled]="currentPage === totalPages - 1" 
+      (click)="onPageChange(currentPage + 1)">
+      Next
+    </button>
+  </div>
+
+  <!-- Page Numbers -->
+  <div *ngIf="totalPages > 1" class="page-numbers">
+    <button 
+      *ngFor="let page of getPageNumbers()" 
+      class="btn btn-page" 
+      [class.btn-primary]="page === currentPage"
+      [class.btn-secondary]="page !== currentPage"
+      (click)="onPageChange(page)">
+      {{page + 1}}
+    </button>
+  </div>
+</div>

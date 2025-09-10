@@ -1,0 +1,22 @@
+<form (ngSubmit)="editUser()" #userForm="ngForm">
+  <input [(ngModel)]="user.firstName" name="firstname" placeholder="First Name" required #firstName="ngModel">
+  <div *ngIf="firstName.invalid && firstName.touched">First Name is required!</div>
+
+  <input [(ngModel)]="user.lastName" name="lastname" placeholder="Last Name" required #lastName="ngModel">
+  <div *ngIf="lastName.invalid && lastName.touched">Last name is required!</div>
+
+  <input [(ngModel)]="user.email" name="email" placeholder="Email" required email #email="ngModel">
+  <div *ngIf="email.invalid && email.touched">Valid Email is required!</div>
+
+  <div>
+    <label *ngFor="let permission of availablePermissions">
+      <input type="checkbox" [value]="permission" (change)="onPermissionChange($event)" [checked]="user.permissions.includes(permission)">
+      {{ permission }}
+    </label>
+  </div>
+  <div *ngIf="user.permissions.length === 0 && userForm.submitted" class="error-message">At least one permission is required!</div>
+
+  <button type="submit" [disabled]="userForm.invalid">Update User</button>
+</form>
+
+<div *ngIf="errorMessage">{{ errorMessage }}</div>

@@ -1,0 +1,21 @@
+<div class="app-container">
+  <header *ngIf="authService.isAuthenticated()" class="app-header">
+    <h1>Food System Management</h1>
+    <nav>
+      <!-- Order Management -->
+      <a routerLink="/orders" *hasPermission="'can_search_order'">Orders</a>
+      <a routerLink="/orders/create" *hasPermission="'can_place_order'">Create Order</a>
+      <a routerLink="/errors" *hasPermission="'can_search_order'">Error History</a>
+      
+      <!-- User Management (Admin only) -->
+      <a routerLink="/users" *hasPermission="'can_read_users'">Users</a>
+      <a routerLink="/users/add" *hasPermission="'can_create_users'">Add User</a>
+      
+      <button (click)="logout()" class="logout-btn">Logout</button>
+    </nav>
+  </header>
+  
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>
