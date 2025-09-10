@@ -221,13 +221,23 @@ public class OrderService {
         // Check if user has admin permissions
         boolean isAdmin = user.getPermissions().contains("can_read_users");
         
-        if (isAdmin && searchDTO.getUserId() != null) {
-            targetUser = userRepository.findById(searchDTO.getUserId()).orElse(null);
-        } else if (!isAdmin) {
-            targetUser = user; // Regular users can only see their own orders
+        if (isAdmin) {
+            // Admin can see all orders (targetUser = null) or specific user's orders
+            if (searchDTO.getUserId() != null) {
+                targetUser = userRepository.findById(searchDTO.getUserId()).orElse(null);
+                System.out.println("Admin searching for specific user orders: " + searchDTO.getUserId());
+            } else {
+                System.out.println("Admin searching for all orders (no user filter)");
+            }
+            // If getUserId() is null, targetUser stays null = show all orders
+        } else {
+            // Regular users can only see their own orders
+            targetUser = user;
+            System.out.println("Regular user (" + user.getEmail() + ") searching for own orders only");
         }
         
         List<Order> orders = orderRepository.searchOrders(statuses, dateFrom, dateTo, targetUser);
+        System.out.println("Found " + orders.size() + " orders for user: " + (targetUser != null ? targetUser.getEmail() : "ALL"));
         return orders.stream().map(this::mapToDTO).collect(Collectors.toList());
     }
 
