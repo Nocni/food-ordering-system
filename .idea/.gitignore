@@ -1,0 +1,33 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+
+# Editor-based HTTP Client requests
+/httpRequests/
+
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
+
+# Backend (Maven)
+FoodSystemBackend/target/
+FoodSystemBackend/.mvn/
+FoodSystemBackend/mvnw
+FoodSystemBackend/mvnw.cmd
+
+# Frontend (Angular/Node)
+FoodSystemFrontend/node_modules/
+FoodSystemFrontend/dist/
+FoodSystemFrontend/.angular/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
